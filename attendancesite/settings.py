@@ -28,7 +28,7 @@ SECRET_KEY = '=u3(=$-c(18z)5)4px4+%fu@0+m459%zqbd$)qcsx39*5*fiqh'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Application definition
 
@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'attendancesite.urls'

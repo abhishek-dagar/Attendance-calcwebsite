@@ -27,7 +27,7 @@ SECRET_KEY = '=u3(=$-c(18z)5)4px4+%fu@0+m459%zqbd$)qcsx39*5*fiqh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['attendancecalculator44.herokuapp.com','localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

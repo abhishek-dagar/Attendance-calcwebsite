@@ -14,10 +14,40 @@
 
 <body>
     <div class="container">
-        <h1>{{ data }}</h1>
-        <div class="container">
-            <a href="/"><button type="button" class="btn btn-primary">logout</button></a>
+        <div class="container my-4">
+            <table class="table  table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Subject name</th>
+                        <th scope="col">present</th>
+                        <th scope="col">absent</th>
+                        <th scope="col">Total percentage</th>
+                    </tr>
+                </thead>{% for subject,values in subject_info.items %}
+                <tbody>
+                    <tr>
+                        <td>{{ subject }}</td>
+                        <td>{{ values.present }}</td>
+                        <td>{{ values.absent }}</td>
+                        <td>{{ values.percentage }}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
         </div>
+        <div class="card text-white bg-success mb-3" style="">
+            <div class="card-header" style="font-size: 2.5rem; text-align: center;">{{ name }}</div>
+            <div class="card-body" style=" text-align: center;">
+                <h5 class="card-title mx-4 " style="font-size: 2.5rem;">Bunk</h5>
+                <p class="card-text mx-4" style="font-size: 2.5rem;">{{ bunk }}</p>
+                <h5 class="card-title mx-4" style="font-size: 2.5rem;">Attend</h5>
+                <p class="card-text mx-4" style="font-size: 2.5rem;">{{ attend }}</p>
+            </div>
+            <div class="container" style=" text-align: center;">
+                <a href="/"><button type="button" class="btn btn-primary">logout</button></a>
+            </div>
+        </div>
+        <h1>{{ data }}</h1>
     </div>
 
 

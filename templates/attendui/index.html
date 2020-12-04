@@ -8,6 +8,8 @@
     <title>Attendance calculator</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" type="text/css" href="{% static 'admin/css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
          :root {
             --input-padding-x: 1.5rem;
@@ -76,6 +78,10 @@
             border: 1px solid transparent;
             border-radius: .25rem;
             transition: all .1s ease-in-out;
+        }
+        
+        #hide1 {
+            display: none;
         }
         
         .form-label-group input::-webkit-input-placeholder {
@@ -156,13 +162,24 @@
                             {% csrf_token%}
                             <div class="form-label-group">
                                 <input type="text" id="inputEmail" class="form-control" placeholder="Username" name="Uname" required autofocus>
-                                <label for="inputEmail">Username</label>
+
+                                <label for="inputEmail"><i class="fa fa-user"></i>  Username</label>
                             </div>
 
                             <div class="form-label-group">
                                 <input type="password" id="inputPassword" name="Password" class="form-control" placeholder="Password" required>
-                                <label for="inputPassword">Password</label>
+
+                                <label for="inputPassword"><i class="fa fa-key"></i> Password
+                                </label>
                             </div>
+                            <div class="eye mx-3" onclick="myFunc()" style="display: inline-block;">
+                                <input type="checkbox" id="mycheck">
+                                <span style="padding-left: 0.5rem;">
+                                    <label for="mycheck"> show password
+                                        </label>
+                                    </span>
+                            </div>
+                            <h3>{{ error }}</h3>
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Login</button>
                         </form>
                     </div>
@@ -173,5 +190,16 @@
 </body>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    function myFunc() {
+        var x = document.getElementById("inputPassword");
+        var y = document.getElementById("mycheck").checked;
+        if (y === true) {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
 
 </html>

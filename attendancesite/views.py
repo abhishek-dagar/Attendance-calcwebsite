@@ -10,18 +10,22 @@ def attendance(request):
     if request.method=='POST':
         Username=request.POST['Uname']
         Password=request.POST['Password']
-        print(Username, Password)
         student = main(Username, Password)
         if student is not None:
-            print(student.attendance.get_full_information())
             attendance_info = student.attendance.get_full_information()
             subject_info,sub_name=student.subjects.all_subject_information()
+            sub_name.sort()
+            params={}
             if attendance_info['attend'] == 0:
-                params={'data': "\tName:"+student.name+"\n\tAttendance: {}".format(round(attendance_info['percentage'],2))+"%\n\tBunk: {}".format(attendance_info['bunk'])}
-                    
+                params={'name':student.name, 'percentage':round(attendance_info['percentage'],2), 'bunk': attendance_info['bunk'],'attend': attendance_info['attend']}
             else:
-                params={'data': "\tName:"+student.name+"\n\tAttendance: {}".format(round(attendance_info['percentage'],2))+"%\n\tAttend: {}".format(attendance_info['attend'])}
-
+                params={'name':student.name, 'percentage':round(attendance_info['percentage'],2), 'bunk': attendance_info['bunk'], 'attend': attendance_info['attend']}
+            sub_info={}
+            for i in sub_name:
+                sub_info[i]=subject_info[i]
+            params['subject_info']=sub_info
+        else:
+            return render(request,'attendui/index.html',{'error': 'wrong credentials'})
 
         return render(request,'attendui/show.html',params)
 

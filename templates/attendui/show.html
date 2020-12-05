@@ -14,8 +14,8 @@
 
 <body>
     <div class="container">
-        <div class="container my-4">
-            <table class="table  table-bordered">
+        <div class="table-responsive-sm">
+            <table class="table  table-bordered my-4">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Subject name</th>
@@ -29,19 +29,19 @@
                         <td>{{ subject }}</td>
                         <td>{{ values.present }}</td>
                         <td>{{ values.absent }}</td>
-                        <td>{{ values.percentage }}</td>
+                        <td>{{ values.percentage }} %</td>
                     </tr>
                 </tbody>
                 {% endfor %}
             </table>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{ name }}</h5>
-                <p class="card-text">Bunk : {{ bunk }}</p>
-                <p class="card-text">Attend : {{ attend }}</p>
-                <a href="/" class="btn btn-primary">logout</a>
-            </div>
+    </div>
+    <div class="card">
+        <div class="card-body" style="text-align: center;">
+            <h5 class="card-title">{{ name }}</h5>
+            <p class="card-text">Bunk : {{ bunk }}</p>
+            <p class="card-text">Attend : {{ attend }}</p>
+            <a href="/" class="btn btn-primary">logout</a>
         </div>
     </div>
 

@@ -24,7 +24,7 @@ def attendance(request):
             for i in sub_name:
                 sub_info[i]=subject_info[i]
             params['subject_info']=sub_info
-            params['total percentage'] = round(attendance_info['percentage'],2)
+            params['total_percentage'] = round(attendance_info['percentage'],2)
         else:
             return render(request,'attendui/index.html',{'error': 'wrong credentials'})
 

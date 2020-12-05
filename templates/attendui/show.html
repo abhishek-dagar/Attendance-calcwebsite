@@ -19,9 +19,9 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Subject name</th>
-                        <th scope="col">present</th>
-                        <th scope="col">absent</th>
-                        <th scope="col">Total percentage</th>
+                        <th scope="col">Present</th>
+                        <th scope="col">Absent</th>
+                        <th scope="col">Percentage</th>
                     </tr>
                 </thead>{% for subject,values in subject_info.items %}
                 <tbody>
@@ -39,6 +39,7 @@
     <div class="card">
         <div class="card-body" style="text-align: center;">
             <h5 class="card-title">{{ name }}</h5>
+            <p class="card-text">Total Attendance : {{ total percentage }}</p>
             <p class="card-text">Bunk : {{ bunk }}</p>
             <p class="card-text">Attend : {{ attend }}</p>
             <a href="/" class="btn btn-primary">logout</a>

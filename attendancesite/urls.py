@@ -21,6 +21,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index),
-    path('attendance',views.attendance)
-
+    path('attendance',views.attendance),
+    path('forAttendAPi/<username>/<password>',views.forAttendData.as_view())
 ]

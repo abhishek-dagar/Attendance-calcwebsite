@@ -111,3 +111,26 @@ def scapAttendance(s, headers, attendance_url):
     except TypeError:
         pass
     return dataset
+
+from rest_framework.response import Response
+from rest_framework import status
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
+import json
+class forAttendData(APIView):
+    def get(self, request, username, password, format=None):
+        name = username
+        password = password
+        student = main(name, password)
+        if student is not None:
+            attendance_info = student.attendance.get_full_information()
+            subject_info,sub_name=student.subjects.all_subject_information()
+            sub_name.sort()
+            each_sub_info = {}
+            for i in sub_name:
+                each_sub_info[i]=subject_info[i]
+            for i in attendance_info:
+                each_sub_info[i]=attendance_info[i]
+            json_obj = json.dumps(each_sub_info, indent=4)
+        print(json_obj)
+        return Response(json_obj)

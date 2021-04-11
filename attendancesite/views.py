@@ -116,6 +116,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
+from django.http import JsonResponse
 import json
 class forAttendData(APIView):
     def get(self, request, username, password, format=None):
@@ -133,4 +134,7 @@ class forAttendData(APIView):
                 each_sub_info[i]=attendance_info[i]
             json_obj = json.dumps(each_sub_info)
             json_obj1 = json.loads(json_obj)
-        return Response(json_obj1)
+            return Response(json_obj1)
+        else:
+            json_obj={}
+            return JsonResponse(status=500, data={})

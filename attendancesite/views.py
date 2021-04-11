@@ -127,7 +127,7 @@ class forAttendData(APIView):
             attendance_info = student.attendance.get_full_information()
             subject_info,sub_name=student.subjects.all_subject_information()
             sub_name.sort()
-            each_sub_info = {}
+            each_sub_info = {'name':student.name}
             for i in sub_name:
                 each_sub_info[i]=subject_info[i]
             for i in attendance_info:

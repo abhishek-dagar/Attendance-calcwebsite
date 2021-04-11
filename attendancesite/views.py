@@ -131,6 +131,6 @@ class forAttendData(APIView):
                 each_sub_info[i]=subject_info[i]
             for i in attendance_info:
                 each_sub_info[i]=attendance_info[i]
-            json_obj = json.dumps(each_sub_info, indent=4)
-        print(json_obj)
-        return Response(json_obj)
+            json_obj = json.dumps(each_sub_info)
+            json_obj1 = json.loads(json_obj)
+        return Response(json_obj1)

@@ -1,34 +1,45 @@
+from rest_framework.response import Response
+import json
+from django.http import JsonResponse
+from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from django.shortcuts import render
 from .Student import Student
 import requests
 from bs4 import BeautifulSoup
 
+
 def index(request):
-    return render(request,'attendui/index.html')
+    return render(request, 'attendui/index.html')
+
 
 def attendance(request):
-    if request.method=='POST':
-        Username=request.POST['Uname']
-        Password=request.POST['Password']
+    if request.method == 'POST':
+        Username = request.POST['Uname']
+        Password = request.POST['Password']
         student = main(Username, Password)
         if student is not None:
             attendance_info = student.attendance.get_full_information()
-            subject_info,sub_name=student.subjects.all_subject_information()
+            subject_info, sub_name = student.subjects.all_subject_information()
             sub_name.sort()
-            params={}
+            params = {}
             if attendance_info['attend'] == 0:
-                params={'name':student.name, 'percentage':round(attendance_info['percentage'],2), 'bunk': attendance_info['bunk'],'attend': attendance_info['attend']}
+                params = {'name': student.name, 'percentage': round(attendance_info['percentage'], 2), 'bunk': attendance_info['bunk'], 'attend': attendance_info['attend'],
+                          "present": attendance_info["present"], "absent": attendance_info["absent"], "total_attendance": attendance_info["present"]+attendance_info["absent"]}
             else:
-                params={'name':student.name, 'percentage':round(attendance_info['percentage'],2), 'bunk': attendance_info['bunk'], 'attend': attendance_info['attend']}
-            sub_info={}
+                params = {'name': student.name, 'percentage': round(attendance_info['percentage'], 2), 'bunk': attendance_info['bunk'], 'attend': attendance_info['attend'],
+                          "present": attendance_info["present"], "absent": attendance_info["absent"], "total_attendance": attendance_info["present"]+attendance_info["absent"]}
+            sub_info = {}
             for i in sub_name:
-                sub_info[i]=subject_info[i]
-            params['subject_info']=sub_info
-            params['total_percentage'] = round(attendance_info['percentage'],2)
+                sub_info[i] = subject_info[i]
+            params['subject_info'] = sub_info
+            params['total_percentage'] = round(
+                attendance_info['percentage'], 2)
         else:
-            return render(request,'attendui/index.html',{'error': 'wrong credentials'})
+            return render(request, 'attendui/index.html', {'error': 'wrong credentials'})
+        return render(request, 'attendui/show.html', params)
 
-        return render(request,'attendui/show.html',params)
 
 def main(username, password, retry=1):
     if retry:
@@ -50,7 +61,7 @@ def main(username, password, retry=1):
             try:
                 r = s.get(url, headers=headers)
             except:
-                return None#self.main(username, password, retry + 1)
+                return None  # self.main(username, password, retry + 1)
             #self.show_result.setText('    connected to the server')
             soup = BeautifulSoup(r.text, 'html5lib')
             login_data['_token'] = soup.find(
@@ -61,7 +72,8 @@ def main(username, password, retry=1):
             page = "".join(line.strip() for line in r.text.split("\n"))
             soup = BeautifulSoup(page, 'html5lib')
             try:
-                student_data.name = soup.find(class_="user-panel").find('p').text
+                student_data.name = soup.find(
+                    class_="user-panel").find('p').text
                 #self.show_result.setText('   logged in')
             except AttributeError:
                 print('wrong Credentials logout and check again')
@@ -86,11 +98,13 @@ def main(username, password, retry=1):
                     dataset.append(data_row)
                     count += 1
                 try:
-                    attendance_url = soup.find('a', attrs={'rel': 'next'})['href']
+                    attendance_url = soup.find(
+                        'a', attrs={'rel': 'next'})['href']
                 except TypeError:
                     break
             student_data.attendance_sheet(dataset)
         return student_data
+
 
 def scapAttendance(s, headers, attendance_url):
     r = s.get(attendance_url, headers=headers)
@@ -112,12 +126,7 @@ def scapAttendance(s, headers, attendance_url):
         pass
     return dataset
 
-from rest_framework.response import Response
-from rest_framework import status
-from django.shortcuts import get_object_or_404
-from rest_framework.views import APIView
-from django.http import JsonResponse
-import json
+
 class forAttendData(APIView):
     def get(self, request, username, password, format=None):
         name = username
@@ -125,16 +134,16 @@ class forAttendData(APIView):
         student = main(name, password)
         if student is not None:
             attendance_info = student.attendance.get_full_information()
-            subject_info,sub_name=student.subjects.all_subject_information()
+            subject_info, sub_name = student.subjects.all_subject_information()
             sub_name.sort()
-            each_sub_info = {'name':student.name,'subject_names':sub_name}
+            each_sub_info = {'name': student.name, 'subject_names': sub_name}
             for i in sub_name:
-                each_sub_info[i]=subject_info[i]
+                each_sub_info[i] = subject_info[i]
             for i in attendance_info:
-                each_sub_info[i]=attendance_info[i]
+                each_sub_info[i] = attendance_info[i]
             json_obj = json.dumps(each_sub_info)
             json_obj1 = json.loads(json_obj)
             return Response(json_obj1)
         else:
-            json_obj={}
+            json_obj = {}
             return JsonResponse(status=500, data={})

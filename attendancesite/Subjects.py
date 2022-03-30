@@ -14,13 +14,14 @@ class Subjects(object):
     # take one attendance at a time as an argument
     def pass_attendance(self, data: list):
         subject_name = data[2]
-        if subject_name in self.subjectsDict:
+        if subject_name in self.subjectsDict and subject_name.strip()!="":
             self.subjectsDict[subject_name].attendance.add_attendance(
                 {'attendance': data[1]}, double_attendance=self._is_lab_subject(
                     subject_name))
         else:
-            self.subjectsDict[subject_name] = Subject(subject_name)
-            self.subjectsDict[subject_name].attendance.add_attendance({'attendance': data[1]},
+            if subject_name!="":
+                self.subjectsDict[subject_name] = Subject(subject_name)
+                self.subjectsDict[subject_name].attendance.add_attendance({'attendance': data[1]},
                                                                       double_attendance=self._is_lab_subject(
                                                                           subject_name))
 

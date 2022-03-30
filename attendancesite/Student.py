@@ -24,7 +24,8 @@ class Student(object):
 
     def overall_percentage(self, dataset):
         for data in dataset:
-            self.attendance.add_attendance({'attendance': data[1]}, double_attendance=self._is_lab_subject(data[2]))
+            if data[2]!="":
+                self.attendance.add_attendance({'attendance': data[1]}, double_attendance=self._is_lab_subject(data[2]))
 
     def _is_lab_subject(self, subject_name) -> bool:
         subject_name = subject_name.lower()
